@@ -1,6 +1,4 @@
-# ZKTeco
-
-# Libreria para accesar Relojes ZKTeco
+# Libreria para accesar Relojes ZKTeco desde Embarcadero Delphi
 
 API para Relojes ZKTeco con Standalone SDK 6.3.1.37
 Segun Changelog con fecha del 2018-05-24
