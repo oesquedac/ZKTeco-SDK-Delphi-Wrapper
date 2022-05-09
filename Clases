@@ -1,0 +1,37 @@
+Clases que contiene el proyecto
+
+#Todo el contenido esta en uRelojes.pas y es una lista de clases que permiten 
+
+#TRelojes
+
+Clase que engloba a los relojes que existen en una red
+* Aun en proceso de desarrollo
+
+#TReloj
+Debes instanciar una clase TReloj para poder conectarse a un reloj
+
+#TLog
+Bitacora del manejo del reloj
+Esta clase ya esta incluida en una propiedad de TReloj
+
+#TDayLight
+Manejo de horario de verano.
+Esta clase ya esta incluida en una propiedad de TReloj
+
+#TPersonal
+Manejo del personal
+Esta clase ya esta incluida en una propiedad de TReloj
+
+#TAsistencia
+Manejo de los eventos del reloj
+Esta clase ya esta incluida en una propiedad de TReloj
+
+** Auxiliares
+Clase para enlace con Dataset
+
+#TDataSetCamposPersonal
+Esta clase ya esta incluida en una propiedad de TPersonal
+
+#TDataSetCamposAsistencia
+Esta clase ya esta incluida en una propiedad de TAsistencia
+
