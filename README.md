@@ -9,7 +9,7 @@ Segun Changelog con fecha del 2018-05-24
 Creada por Oscar Adrian Esqueda Cortes (www.itcmx.com)
 Con la colaboración de MJLB
 
-Probado en un reloj MB160
+Probado con checadores modelo
 
 Se crean clases que envuelven (wrap) el componente para su facilidad de uso.
 
