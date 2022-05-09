@@ -1,0 +1,83 @@
+Origen,ErrorCode,Error
+1,0,Conectado correctamente
+1,-1,Error al invocar la interfaz o el SDK no se inicializa y debe volver a conectarse
+1,-2,Error al inicializar o Error de lectura/escritura de archivos
+1,-3,Error al inicializar parometros o tamaoo incorrecto
+1,-4,Espacio insuficiente
+1,-5,Error de lectura del modo de datos o Los datos ya existen
+1,-6,Contraseoa incorrecta
+1,-7,Error de respuesta
+1,-8,Tiempo de espera de recepcion
+1,-307,Tiempo de espera de conexion
+1,-201,El dispositivo esto ocupado
+1,-199,Nuevo modo
+1,-103,dispositivo enviar de vuelta error de version de la cara error
+1,-102,"Error de version de plantilla de cara, como plantilla de cara 8.0 enviar al dispositivo 7.0"
+1,-101,Error en la memoria malloc
+1,-100,No se admite o los datos no e xist
+1,-10,La duracion de los datos transmitidos es incorrecta
+1,0,Datos no encontrados o datos duplicados
+1,1,Funcionamiento correcto
+1,4,Error de parometro
+1,101,Error de asignacion de bofer
+1,102,invocar repetidamente
+2,-12001,Tiempo de espera de creacion de sockets (tiempo de espera de conexion)
+2,-12002,Memoria insuficiente
+2,-12003,Version incorrecta del socket
+2,-12004,No es protocolo TCP
+2,-12005,Tiempo de espera
+2,-12006,Tiempo de espera de la transmision de datos
+2,-12007,Tiempo de espera de lectura de datos
+2,-12008,Error al leer socket
+2,-13009,Error de evento en espera
+2,-13010,Intentos de reintento excedidos
+2,-13011,ID de respuesta incorrecto
+2,-13012,Error de suma de comprobacion
+2,-13013,Tiempo de espera del evento
+2,-13014,DIRTY_DATA
+2,-13015,Tamaoo del bofer demasiado pequeoo
+2,-13 016,Longitud de datos incorrecta
+2,-13017,Lectura de datos no volida1
+2,-13018,Lectura de datos no volida2
+2,-13019,Lectura de datos no volida3
+2,-13020,Pordida de datos
+2,-13021,Error de inicializacion de memoria
+3,-15001,Invocar repetidamente el valor devuelto de la clave de estado emitida por la interfaz SetShortkey
+3,-15002,Invocar repetidamente el valor de cambio de descripcion emitido por la interfaz SetShortkey
+3,-15003,El meno de dos niveles no se abre en el dispositivo y no es necesario emitir los datos
+3,-15100,Se produce un error al obtener table str ucture
+3,-15101,El campo de condicion no existe en la estructura de la tabla
+3,-15102,Inconsistencia en el nomero total de campos
+3,-15103,Inconsistencia en la ordenacion de campos
+3,-15104,Error de asignacion de memoria
+3,-15105,Error de anolisis de datos
+3,-15106,Desbordamiento de datos a medida que los datos transmitidos superan los 4M
+3,-15108,Opciones no volidas
+3,-15113,Error de anolisis de datos: no se encontro el identificador de tabla
+3,-15114,Se devuelve una excepcion de datos ya que el nomero de campos es menor o igual a 0
+3,-15115,"Se devuelve una excepcion de datos, ya que el nomero total de campos de tabla es independiente del nomero total de campos de los datos"
+4,2000,Devolver ACEPTAR para ejecutar
+4,-2001,Comando Return Fail to execute
+4,-2002,Devolver datos
+4,-2003,Evento registrado ocurre
+4,-2004,Devolvio Comando REPEAT
+4,-2005,Devolvio Comando UNAUTH
+4,65535,0xffff Devolvio Comando Unknown
+4,-4999,Error de lectura del parometro del dispositivo
+4,-4998,Error de escritura de parometros de dispositivo
+4,-4997,La longitud de los datos enviados por el software al dispositivo es incorrecta
+4,-4996,Existe un error de parometro en los datos enviados por el software al dispositivo
+4,-4995,Error al agregar datos a la base de datos
+4,-4994,Error al actualizar la base de datos
+4,-4993,Error al leer los datos de la base de datos
+4,-4992,Error al eliminar datos de la base de datos
+4,-4991,Datos no encontrados en la base de datos
+4,-4990,La cantidad de datos en la base de datos alcanza el lomite
+4,-4989,Error al asignar memoria a una sesion
+4,-4988,Espacio insuficiente en la memoria asignada a una sesion
+4,-4987,La memoria asignada a una sesion se desborda
+4,-4986,El archivo no existe
+4,-4985,Error de lectura de archivos
+4,-4984,Error de escritura de archivos
+4,-4983,Error al calcular el valor de hash
+4,-4982,Error al asignar memoria
