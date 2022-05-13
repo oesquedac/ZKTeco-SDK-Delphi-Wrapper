@@ -10,7 +10,7 @@
 **    Funciona en 32 y 64 bits                                                                                       **
 **                                                                                                                   **
 **    Creada por Oscar Adrian Esqueda Cortes (www.itcmx.com)                                                         **
-**    Con la colaboración de MJLB                                                                                    **
+**    Con la colaboración de MJLB - malobo@arainfor.com                                                              **
 **    Última modificacion 20 de abril 2022                                                                           **
 **                                                                                                                   **
 **                                                                                                                   **
@@ -32,14 +32,30 @@ type
     FItems:TDictionary<string, TReloj>;
 
     function GetItem(AIndex: string): TReloj;
-    procedure SetItem(AIndex: string; const Value: TReloj);
+    function getTotal: Integer;
   public
-    constructor Create;
+    constructor Create; virtual;
     destructor Destroy; override;
 
-    property Item[AIndex:string]:TReloj read GetItem write SetItem;
+    property Item[AIndex:string]:TReloj read GetItem;
 
-    function Add(AReloj:TReloj):Boolean; overload;
+    property Total:Integer read getTotal;
+
+    function Buscar(AIP:string):Boolean; overload;
+    function Buscar(AReloj:TReloj):Boolean; overload;
+
+    function Agregar(AIP:string):TReloj; overload;
+    function Agregar(AReloj:TReloj):Boolean; overload;
+
+    function Indice(AIP:string):Integer; overload;
+    function Indice(AReloj:TReloj):Integer; overload;
+
+    procedure Quitar(AIP:string); overload;
+    procedure Quitar(AReloj:TReloj); overload;
+    procedure QuitarTodos(AEliminarObjetos:Boolean = True);
+
+    class function Version:String;
+    class function Fecha:TDateTime;
 
     class function SDKVersion:string;
   end; {TRelojes}
@@ -50,6 +66,9 @@ type
   TLog = class;
   TAsistencia = class;
 
+  (***********************************************
+  * Opciones para eliminar datos del dispositivo *
+  ************************************************)
   TLimpiarDatos = (ldInvalido, ldHuellas, ldNinguno, ldOperaciones, ldUsuarios);
 
   (********************************************
@@ -341,9 +360,33 @@ uses
 
 { TRelojes }
 
-function TRelojes.Add(AReloj: TReloj): Boolean;
+function TRelojes.Agregar(AIP: string): TReloj;
 begin
+if not Buscar(AIP) then begin
+  Result := TReloj.Create(Self);
+  Result.IP := AIP;
+  Result.Descripcion := AIP;
 
+  FItems.Add(AIP, Result);
+end else
+  Result := nil;
+end;
+
+function TRelojes.Agregar(AReloj: TReloj): Boolean;
+begin
+Result := Buscar(AReloj);
+if not Result then
+  FItems.Add(AReloj.IP, AReloj);
+end;
+
+function TRelojes.Buscar(AReloj: TReloj): Boolean;
+begin
+Result := FItems.ContainsValue(AReloj);
+end;
+
+function TRelojes.Buscar(AIP: string): Boolean;
+begin
+Result := FItems.ContainsKey(AIP);
 end;
 
 constructor TRelojes.Create;
@@ -353,15 +396,104 @@ end;
 
 destructor TRelojes.Destroy;
 begin
-FItems.Clear;
+QuitarTodos(True);
 FItems.Free;
 
 inherited Destroy;
 end;
 
+class function TRelojes.Fecha: TDateTime;
+var
+  FormatSettings:TFormatSettings;
+begin
+{$WARNINGS OFF}
+FormatSettings := TFormatSettings.Create($080A);
+{$WARNINGS ON}
+Result := StrToDate('13/may/2022', FormatSettings);
+end;
+
 function TRelojes.GetItem(AIndex: string): TReloj;
 begin
+if Buscar(AIndex) then
+  Result := FItems.Items[AIndex]
+else
+  Result := nil;
+end;
 
+function TRelojes.getTotal: Integer;
+begin
+Result := FItems.Count;
+end;
+
+function TRelojes.Indice(AReloj: TReloj): Integer;
+var
+  i:Integer;
+  sIP:string;
+begin
+sIP := '';
+var aKeys := FItems.Keys.ToArray;
+
+for i := low(aKeys) to High(aKeys) do begin
+  sIP := aKeys[i];
+
+  if AReloj.IP = sIP then
+    Break;
+end; {for}
+
+if AReloj.IP <> sIP then
+  i := -1;
+
+Result := i;
+end;
+
+procedure TRelojes.Quitar(AReloj: TReloj);
+begin
+Quitar(AReloj.IP);
+end;
+
+procedure TRelojes.Quitar(AIP: string);
+begin
+if Buscar(AIP) then begin
+  Item[AIP].Free;
+  Fitems.Remove(AIP);
+end; {if}
+
+FItems.TrimExcess;
+end;
+
+procedure TRelojes.QuitarTodos(AEliminarObjetos:Boolean = True);
+var
+  sIP:string;
+begin
+for sIP in FItems.Keys do begin
+  FItems.Items[sIP].Free;
+  FItems.Items[sIP] := nil;
+end; {for}
+
+FItems.Clear;
+
+FItems.TrimExcess;
+end;
+
+function TRelojes.Indice(AIP: string): Integer;
+var
+  i:Integer;
+  sIP:string;
+begin
+sIP := '';
+var aKeys := FItems.Keys.ToArray;
+
+for i := low(aKeys) to High(aKeys) do begin
+  sIP := aKeys[i];
+
+  if AIP = sIP then
+    Break;
+end; {for}
+
+if AIP <> sIP then
+  i := -1;
+
+Result := i;
 end;
 
 class function TRelojes.SDKVersion: string;
@@ -379,9 +511,9 @@ end; {try}
 end;
 
 
-procedure TRelojes.SetItem(AIndex: string; const Value: TReloj);
+class function TRelojes.Version: String;
 begin
-
+Result := 'v0.0.33.20220513';
 end;
 
 { TReloj }
@@ -424,10 +556,11 @@ begin
   m := strtointdef(copy(TimeStr, 1, p - 1), -1);
   s := strtointdef(copy(TimeStr, p + 1, 100), -1);
 
+  {$HINTS OFF}
   if (m < 0) or (s < 0) or (m > 255) or (s > 255) then
-    {$HINTS OFF}
+
     result := 255;
-    {$HINTS ON}
+  {$HINTS ON}
 
   result := m * 256 + s;
 end;
