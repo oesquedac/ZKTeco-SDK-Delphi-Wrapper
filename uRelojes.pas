@@ -20,13 +20,25 @@ unit uRelojes;
 
 interface
 uses
-  System.Classes, Vcl.OleCtrls, zkemkeeper_TLB, Data.DB, Vcl.Grids;
+
+  System.Classes, Vcl.OleCtrls, zkemkeeper_TLB, Data.DB, Vcl.Grids, System.Generics.Collections;
 
 type
+  TReloj = class;
+
   TRelojes = class
   protected
   private
+    FItems:TDictionary<string, TReloj>;
+
+    function GetItem(AIndex: string): TReloj;
+    procedure SetItem(AIndex: string; const Value: TReloj);
   public
+    constructor Create;
+    destructor Destroy; override;
+
+    property Item[AIndex:string]:TReloj read GetItem write SetItem;
+
     class function SDKVersion:string;
   end; {TRelojes}
 
@@ -327,6 +339,24 @@ uses
 
 { TRelojes }
 
+constructor TRelojes.Create;
+begin
+FItems := TDictionary<string, TReloj>.Create;
+end;
+
+destructor TRelojes.Destroy;
+begin
+FItems.Clear;
+FItems.Free;
+
+inherited Destroy;
+end;
+
+function TRelojes.GetItem(AIndex: string): TReloj;
+begin
+
+end;
+
 class function TRelojes.SDKVersion: string;
 var
   CZKEM: TCZKEM;
@@ -341,6 +371,11 @@ finally
 end; {try}
 end;
 
+
+procedure TRelojes.SetItem(AIndex: string; const Value: TReloj);
+begin
+
+end;
 
 { TReloj }
 
@@ -383,7 +418,9 @@ begin
   s := strtointdef(copy(TimeStr, p + 1, 100), -1);
 
   if (m < 0) or (s < 0) or (m > 255) or (s > 255) then
+    {$HINTS OFF}
     result := 255;
+    {$HINTS ON}
 
   result := m * 256 + s;
 end;
