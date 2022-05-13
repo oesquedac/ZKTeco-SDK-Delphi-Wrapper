@@ -39,6 +39,8 @@ type
 
     property Item[AIndex:string]:TReloj read GetItem write SetItem;
 
+    function Add(AReloj:TReloj):Boolean; overload;
+
     class function SDKVersion:string;
   end; {TRelojes}
 
@@ -338,6 +340,11 @@ uses
   System.SysUtils, System.DateUtils;
 
 { TRelojes }
+
+function TRelojes.Add(AReloj: TReloj): Boolean;
+begin
+
+end;
 
 constructor TRelojes.Create;
 begin
