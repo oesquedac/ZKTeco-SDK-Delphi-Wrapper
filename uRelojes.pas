@@ -120,6 +120,8 @@ type
     property DevID:Integer read FDevID;
     function GetDevID:Integer;
 
+    procedure ActualizarInformacion;
+
     function Respaldar(AArchivo:string):Boolean;
     function Restaurar(AArchivo:string):Boolean;
 
@@ -1000,6 +1002,11 @@ begin
 ActualizarError(Format(AMsg, Args));
 end;
 
+procedure TReloj.ActualizarInformacion;
+begin
+FCZKEM.RefreshData(DevID);
+end;
+
 procedure TReloj.AddDeviceStatus(AMsg: String; Args: array of const);
 begin
 AddDeviceStatus(Format(AMsg, Args));
@@ -1409,11 +1416,9 @@ end;
 
 procedure TLog.LimpiarBitacora;
 begin
-
-if (FOwner.FCZKEM.ClearSLog(FOwner.DevID)) then
-begin
-                FOwner.FCZKEM.RefreshData(FOwner.DevID);
-                FOwner.AddDeviceStatus('Se limpio la bitacora');
+if (FOwner.FCZKEM.ClearSLog(FOwner.DevID)) then begin
+  FOwner.FCZKEM.RefreshData(FOwner.DevID);
+  FOwner.AddDeviceStatus('Se limpio la bitacora');
 end else
   FOwner.ActualizarError('Error al limpiar la bitacora');
 end;
@@ -1489,14 +1494,19 @@ end;
 
 procedure TAsistencia.EnviarStringGrid(AStringGrid: TStringGrid);
 var
-  i:Integer;
+  i, iTotal:Integer;
   strLinea:TStringList;
 begin
 AStringGrid.RowCount := 1;
 AStringGrid.ColCount := 1;
 AStringGrid.Cells[0, 0] := '';
 
-AStringGrid.RowCount := Self.Total;
+if Self.Total > 0  then
+  iTotal := Self.Total + 1
+else
+  iTotal := 2;
+
+AStringGrid.RowCount := iTotal;
 AStringGrid.ColCount := 4;
 
 AStringGrid.FixedCols := 1;
@@ -1572,7 +1582,19 @@ end;
 
 function TAsistencia.Limpiar: Boolean;
 begin
-Result := FOwner.FCZKEM.ClearGLog(FOwner.FDevID);
+//Result := FOwner.FCZKEM.ClearGLog(FOwner.FDevID);
+
+FOwner.FCZKEM.EnableDevice(FOwner.DevID, false);//disable the device
+try
+  Result := FOwner.FCZKEM.ClearGLog(FOwner.DevID);
+
+  if (Result) then
+    FOwner.FCZKEM.RefreshData(FOwner.DevID)
+  else
+    FOwner.FCZKEM.GetLastError(FOwner.FErrorCode);
+finally
+  FOwner.FCZKEM.EnableDevice(FOwner.DevID, true);//enable the device
+end; {try}
 end;
 
 { TDataSetCamposAsistencia }
