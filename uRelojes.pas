@@ -1582,8 +1582,6 @@ end;
 
 function TAsistencia.Limpiar: Boolean;
 begin
-//Result := FOwner.FCZKEM.ClearGLog(FOwner.FDevID);
-
 FOwner.FCZKEM.EnableDevice(FOwner.DevID, false);//disable the device
 try
   Result := FOwner.FCZKEM.ClearGLog(FOwner.DevID);
